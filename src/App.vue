@@ -1,6 +1,7 @@
 <template>
   <v-app>
-    <HeaderBar />
+    <LoginPage />
+    <!-- <HeaderBar />
     <v-main>
       <v-container
         fluid
@@ -18,12 +19,13 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-main>
+    </v-main> -->
   </v-app>
 </template>
 <script setup>
-import HeaderBar from '@/components/layouts/HeaderBar.vue'
-import SideBar from '@/components/layouts/SideBar.vue'
+// import HeaderBar from '@/components/layouts/HeaderBar.vue'
+// import SideBar from '@/components/layouts/SideBar.vue'
+import LoginPage from './modules/auth/LoginPage.vue';
 </script>
 
 <style scoped>

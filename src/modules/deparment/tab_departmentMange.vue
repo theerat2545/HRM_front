@@ -1,6 +1,9 @@
 <template>
   <v-container>
     <v-card>
+      <v-card-title class="bg-navy text-white text-h6">
+        ฟอร์มเพิ่ม/แก้ไขแผนก
+      </v-card-title>
       <v-row class="px-4 py-4">
         <v-col
           cols="12"
@@ -62,7 +65,7 @@
         show-headers
         :headers="headers"
         :items="department"
-        :items-per-page="5"
+        :items-per-page="4"
         density="comfortable"
         hover
       >
