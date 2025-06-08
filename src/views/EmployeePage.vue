@@ -13,7 +13,7 @@
       </BaseButton>
 
       <EmployeeList 
-        :employees="sampleEmployees"
+        :employees="employees"
         @edit="handleEditEmployee"
       />
     </v-card>
@@ -28,54 +28,19 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import BaseButton from '@/components/common/BaseButton.vue'
 import EmployeeList from '@/modules/employee/EmployeeList.vue'
 import EmployeeFormDialog from '@/modules/employee/EmployeeFormDialog.vue'
+import { useEmployeeStore } from '@/stores/employeeStore'
 
-// ข้อมูลตัวอย่าง
-const sampleEmployees = ref([
-  {
-    eno: 1,
-    employeeCode: 'IT-Dev0001',
-    efirstName: 'สมชาย',
-    elastName: 'ใจดี',
-    mail: 'somchai@mail.com',
-    department: 'IT',
-    position: 'Developer',
-    startWork: '2023-01-01',
-    workAge: '1 ปี',
-    status: 'Active'
-  },
-  {
-    eno: 2,
-    employeeCode: 'HR-M0001',
-    efirstName: 'นางสาว',
-    elastName: 'ใจดี',
-    mail: 'nangsow@mail.com',
-    department: 'HR',
-    position: 'Manager',
-    startWork: '2023-01-01',
-    workAge: '1 ปี',
-    status: 'Active',
-  },
-  {
-    eno: 3,
-    employeeCode: 'IT-Dev0002',
-    efirstName: 'นาย',
-    elastName: 'ใจดี',
-    mail: 'nay@mail.com',
-    department: 'IT',
-    position: 'Developer',
-    startWork: '2023-01-01',
-    workAge: '1 ปี',
-    status: 'Active',
-  },
-])
-
+const employeeStore = useEmployeeStore()
 const showFormDialog = ref(false)
 const selectedEmployee = ref(null)
 const formMode = ref('add')
+
+const employees = computed(() => employeeStore.employees)
+
 
 const openAddEmployee = () => {
   formMode.value = 'add'
@@ -89,20 +54,19 @@ const handleEditEmployee = (employee) => {
   showFormDialog.value = true
 }
 
-const handleSaveEmployee = (employeeData) => {
+ // ฟังก์ชันสำหรับบันทึกข้อมูลพนักงาน
+const handleSaveEmployee = async (employeeData) => {
   if (formMode.value === 'add') {
-    // เพิ่มข้อมูลตัวอย่าง
-    sampleEmployees.value.push({
-      ...employeeData,
-      id: Math.max(...sampleEmployees.value.map(e => e.id)) + 1
-    })
+    await employeeStore.addEmployee(employeeData)
   } else {
-    // แก้ไขข้อมูลตัวอย่าง
-    const index = sampleEmployees.value.findIndex(e => e.id === employeeData.id)
-    if (index !== -1) {
-      sampleEmployees.value.splice(index, 1, employeeData)
-    }
+    await employeeStore.updateEmployee(employeeData)
   }
+
   showFormDialog.value = false
 }
+
+onMounted(() => {
+  employeeStore.fetchEmployees()
+  // console.log('EmployeePage mounted, employees:', employees.value)
+})
 </script>

@@ -33,7 +33,7 @@
         small
         color="primary"
         class="ms-2"
-        @click="confirmDelete(item)"
+        @click="modalView(item)"
       >
         mdi-eye
       </v-icon>
@@ -52,7 +52,7 @@ defineProps({
 const emit = defineEmits(['edit'])
 
 const headers = [
-  { title: 'ลำดับ', key: 'eno' },
+  // { title: 'ลำดับ', key: 'eno' },
   { title: 'รหัสพนักงาน', key: 'employeeCode' },
   { title: 'ชื่อ', key: 'efirstName' },
   { title: 'นามสกุล', key: 'elastName' },

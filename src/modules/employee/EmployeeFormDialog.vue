@@ -1,5 +1,6 @@
 <template>
   <v-dialog
+    v-if="dialogVisible"
     v-model="dialogVisible"
     max-width="600px"
   >
@@ -7,7 +8,7 @@
       <v-card-title>
         {{ mode === 'add' ? 'เพิ่มพนักงานใหม่' : 'แก้ไขข้อมูลพนักงาน' }}
       </v-card-title>
-      <v-card-text>
+      <v-card-text v-if="dialogVisible">
         <EmployeeForm 
           ref="form"
           :employee="employee"
@@ -24,7 +25,7 @@
         </v-btn>
         <v-btn
           color="primary"
-          @click="$refs.form.submit()"
+          @click="submitForm"
         >
           บันทึก
         </v-btn>
@@ -42,7 +43,7 @@ const props = defineProps({
   modelValue: Boolean,
   employee: {
     type: Object,
-    default: () => ({})
+    default: () => ({})   
   },
   mode: {
     type: String,
@@ -56,6 +57,12 @@ const dialogVisible = computed({
   get: () => props.modelValue,
   set: (val) => emit('update:modelValue', val)
 })
+
+const submitForm = () => {
+  if (form.value && form.value.submit === 'function') {
+    form.value.submit()
+  }
+}
 
 // จัดการฟอร์ม
 const form = ref(null)

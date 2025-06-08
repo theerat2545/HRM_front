@@ -21,9 +21,9 @@ import 'primevue/resources/themes/lara-light-indigo/theme.css'
 import 'primevue/resources/primevue.min.css'
 import 'primeicons/primeicons.css';
 
-  
-
 import '@mdi/font/css/materialdesignicons.css'
+
+const pinia = createPinia()
 
 const vuetify = createVuetify({
   components,
@@ -37,5 +37,6 @@ app.use(router)
 app.use(BootstrapVue3)
 app.use(vuetify)
 app.use(PrimeVue)
+app.use(pinia)
 
 app.mount('#app')

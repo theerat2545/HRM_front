@@ -43,7 +43,7 @@
       >
         <v-select
           v-model="formData.position"
-          :items="positions"
+          :items="store.positions"
           label="ตำแหน่ง"
           :rules="[v => !!v || 'กรุณาเลือกตำแหน่ง']"
           required
@@ -55,7 +55,7 @@
       >
         <v-select
           v-model="formData.department"
-          :items="departments"
+          :items="store.departments"
           label="แผนก"
           :rules="[v => !!v || 'กรุณาเลือกแผนก']"
           required
@@ -98,8 +98,12 @@
 </template>
 
 <script setup>
+import { useEmployeeStore } from '../../stores/employeeStore'
 import { ref, watch } from 'vue'
 import dayjs from 'dayjs'
+
+const store = useEmployeeStore()
+// const { positions, departments } = store
 
 const props = defineProps({
   employee: {
@@ -135,10 +139,11 @@ const resetForm = () => {
     workAge: '',
     employeeCode: '',
     status: 'Active',
-    updateAt: '',
-
+    createAt: '',
+    updateAt: ''
   }
 }
+
 
 // คำนวณอายุงานเมื่อ startDate เปลี่ยน
 const calcWorkAge = (dateStr) => {
@@ -173,4 +178,9 @@ const submitForm = () => {
 defineExpose({
   submit: submitForm
 })
+
+// onMounted (() => {
+//   store.fetchPositions()
+//   store.fetchDepartments()
+// })
 </script>

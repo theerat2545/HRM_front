@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="visible"
+    v-if="modelValue"
     class="modal-overlay"
     @click.self="close"
   >
@@ -36,8 +36,8 @@
 </template>
 
 <script setup>
-defineProps({
-  visible: {
+const props = defineProps({
+  modelValue: {
     type: Boolean,
     required: true
   },
@@ -47,9 +47,10 @@ defineProps({
   }
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['update:modelValue', 'close'])
 
 function close() {
+  emit('update:modelValue', false)
   emit('close')
 }
 </script>
