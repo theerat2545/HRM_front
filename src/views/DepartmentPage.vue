@@ -9,7 +9,7 @@
         bg-color="white"
       >
         <v-tab
-          value="department"
+          value="departments"
           prepend-icon="mdi-bookshelf"
         >
           จัดการแผนก
@@ -22,14 +22,19 @@
         </v-tab>
       </v-tabs>
     </v-card>
-
     <v-card-text>
       <v-window v-model="tab">
-        <v-window-item value="department">
-          <DepartmentsTab :department="sampleDepartments" />
+        <v-window-item value="departments">
+          <DepartmentsTab 
+            :department="departments" 
+            @update:department="updateDepartments($event)" 
+          />
         </v-window-item>
         <v-window-item value="positions">
-          <PositionsTab :positions="samplePositions" />
+          <PositionsTab 
+            :position="positions"
+            @update:position="updatePosition($event)"
+          />
         </v-window-item>
       </v-window>
     </v-card-text>
@@ -37,19 +42,34 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import DepartmentsTab from '@/modules/deparment/tab_departmentMange.vue'
-import PositionsTab from '@/modules/deparment/tab_positionManage.vue'
+import { ref, onMounted, computed } from 'vue'
+import DepartmentsTab from '@/modules/department/tab_departmentMange.vue'
+import PositionsTab from '@/modules/department/tab_positionManage.vue'
+import { useDepartmentStore } from '@/stores/departmentStore'
+import { usePositionStore } from '@/stores/positions.store'
 
-const tab = ref('department')
 
-const sampleDepartments = ref([
-  { id: 1, thaiName: 'ฝ่ายบุคคล', engName: 'Human Resources', short: 'HR', detail: 'ดูแลทรัพยากรบุคคล' },
-  { id: 2, thaiName: 'ฝ่ายไอที', engName: 'Information Technology', short: 'IT', detail: 'ดูแลระบบคอมพิวเตอร์' }
-])
+const departmentStore = useDepartmentStore()
+const positionStore = usePositionStore()
 
-const samplePositions = ref([
-  { id: 1, thaiName: 'ผู้จัดการ', engName: 'Manager', short: 'MGR', detail: 'ดูแลและบริหารจัดการแผนก', departmentId: 1 },
-  { id: 2, thaiName: 'นักพัฒนา', engName: 'Developer', short: 'DEV', detail: 'พัฒนาและดูแลระบบซอฟต์แวร์', departmentId: 2 }
-])
+const departments = computed(() => departmentStore.departments)
+const positions = computed(() => positionStore.positions)
+
+const tab = ref('departments')
+
+function updateDepartments(newDepartments) {
+  departmentStore.setDepartments(newDepartments);
+}
+
+function updatePosition(newPositions) {
+  positionStore.setPositions(newPositions);
+}
+
+onMounted(() => {
+  departmentStore.fetchDepartments()
+  console.log('Departments fetched:', departments.value)
+  positionStore.fetchPositions()
+  console.log('Positions fetched:', positions.value)
+})
+
 </script>

@@ -8,12 +8,12 @@ import DepartmentPage from '@/views/DepartmentPage.vue'
 import LoginPage from '@/modules/auth/LoginPage.vue'
 
 const routes = [
-  { path: '/', component: DashboardPage },
-  { path: '/employees', component: EmployeePage },
-  { path: '/department', component: DepartmentPage },
-  { path: '/leave-approval', component: LeaveApprovalPage },
-  { path: '/reports', component: ReportsPage },
-  { path: '/login', component: LoginPage },
+  { path: '/', name: 'Dashboard', component: DashboardPage },
+  { path: '/employees', name: 'Employees', component: EmployeePage },
+  { path: '/department', name: 'Department', component: DepartmentPage },
+  { path: '/leave-approval', name: 'LeaveApproval', component: LeaveApprovalPage },
+  { path: '/reports', name: 'Reports', component: ReportsPage },
+  { path: '/login', name: 'Login', component: LoginPage },
 ]
 
 export default createRouter({

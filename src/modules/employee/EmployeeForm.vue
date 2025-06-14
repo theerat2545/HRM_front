@@ -43,7 +43,7 @@
       >
         <v-select
           v-model="formData.position"
-          :items="store.positions"
+          :items="employeeStore.positions"
           label="ตำแหน่ง"
           :rules="[v => !!v || 'กรุณาเลือกตำแหน่ง']"
           required
@@ -55,7 +55,9 @@
       >
         <v-select
           v-model="formData.department"
-          :items="store.departments"
+          :items="departmentItems"
+          item-title="title"
+          item-value="value"
           label="แผนก"
           :rules="[v => !!v || 'กรุณาเลือกแผนก']"
           required
@@ -98,12 +100,23 @@
 </template>
 
 <script setup>
+import { onMounted, computed } from 'vue'
 import { useEmployeeStore } from '../../stores/employeeStore'
+import { useDepartmentStore } from '../../stores/departmentStore'
+
 import { ref, watch } from 'vue'
 import dayjs from 'dayjs'
 
-const store = useEmployeeStore()
-// const { positions, departments } = store
+
+const employeeStore = useEmployeeStore()
+const departmentStore = useDepartmentStore()
+
+const departmentItems = computed(() => 
+  departmentStore.departments.map(dep => ({
+  title: dep.thainame,
+  value: dep.id
+})))
+
 
 const props = defineProps({
   employee: {
@@ -179,8 +192,8 @@ defineExpose({
   submit: submitForm
 })
 
-// onMounted (() => {
-//   store.fetchPositions()
-//   store.fetchDepartments()
-// })
+onMounted (() => {
+  // employeeStore.fetchPositions()
+  departmentStore.fetchDepartments()
+})
 </script>

@@ -58,9 +58,10 @@ const dialogVisible = computed({
   set: (val) => emit('update:modelValue', val)
 })
 
-const submitForm = () => {
-  if (form.value && form.value.submit === 'function') {
-    form.value.submit()
+const submitForm = async () => {
+  // เรียก submit method ของ EmployeeForm ผ่าน ref
+  if (form.value && form.value.submit) {
+    await form.value.submit()
   }
 }
 

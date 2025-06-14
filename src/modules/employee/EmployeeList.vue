@@ -3,7 +3,7 @@
     :headers="headers"
     :items="employees"
     :items-per-page="10"
-    class="elevation-1 ma-4"
+    class="elevation-1"
   >
     <template #[`item.status`]="{ item }">
       <v-chip

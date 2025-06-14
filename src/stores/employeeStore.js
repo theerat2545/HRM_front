@@ -25,8 +25,15 @@ export const useEmployeeStore = defineStore('employee', {
       }
     },
     async addEmployee(data) {
-      const res = await axios.post('http://localhost:5000/api/auth/register', data)
-      this.employees.push(res.data)
+
+      try {
+        const res = await axios.post('http://localhost:5000/api/employees/', data)
+        this.employees.push(res.data.data)
+        console.log(res.data.data)
+      } catch (err) {
+        this.error = err
+        console.error('เกิดข้อผิดพลาดขณะเพิ่มพนักงาน:', err)
+      }
     },
     async updateEmployee(id, data) {
       const res = await axios.put(`http://localhost:5000/api/employees/${id}`, data)
